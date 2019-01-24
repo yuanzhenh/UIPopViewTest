@@ -1,0 +1,156 @@
+//
+//  PrefixHeader.pch
+//  BaseDefaultUINavigationController
+//
+//  Created by captain on 16/8/16.
+//  Copyright (c) 2016年 yzh. All rights reserved.
+//
+
+#ifndef BaseDefaultUINavigationController_PrefixHeader_pch
+#define BaseDefaultUINavigationController_PrefixHeader_pch
+
+#define TEST                                   (1)
+
+#define NAVIGATION_ITEM_VIEW_SUBVIEWS_LEFT_SPACE                 (12)
+#define NAVIGATION_ITEM_VIEW_SUBVIEWS_RIGHT_SPACE                (20)
+#define CUSTOM_NAVIGATION_ITEM_VIEW_SUBVIEWS_ITEM_SPACE          (15)
+#define SYSTEM_NAVIGATION_ITEM_VIEW_SUBVIEWS_ITEM_SPACE          (15)
+#define NAVIGATION_ITEM_VIEW_LEFT_BACK_ITEM_IMAGE_WITH_TITLE_SPACE              (5)
+
+//这个最好别修改，NAVIGATION_ITEM_HEIGHT_WITH_NAVIGATION_BAR_HEIGHT_RATIO这个和系统中的导航栏中返回按钮一样大小
+#define NAVIGATION_ITEM_HEIGHT_WITH_NAVIGATION_BAR_HEIGHT_RATIO                 (0.5)
+//这个是长方形图片导航栏按钮高度与导航栏高度的比例
+#define IMAGE_NAVIGATION_ITEM_HEIGHT_WITH_NAVIGATION_BAR_HEIGHT_RATIO           (0.4)
+//这个是正方形图片导航栏按钮高度与导航栏高度的比例
+#define SQUARE_IMAGE_NAVIGATION_ITEM_HEIGHT_WITH_NAVIGATION_BAR_HEIGHT_RATIO    (0.62)
+#define SQUARE_IMAGE_WIDTH_WITH_HEIGHT_MIN_RATIO                                (0.95)
+#define SQUARE_IMAGE_WIDTH_WITH_HEIGHT_MAX_RATIO                                (1.05)
+#define IS_SQUARE_SIZE(SIZE)                                                    (SIZE.width/SIZE.height >= SQUARE_IMAGE_WIDTH_WITH_HEIGHT_MIN_RATIO && SIZE.width/SIZE.height <= SQUARE_IMAGE_WIDTH_WITH_HEIGHT_MAX_RATIO)
+
+#define NAVIGATION_ITEM_TITLE_FONT          [UIFont fontWithName:@"Helvetica-Bold" size:17.0]
+
+#define TYPE_AND(VA,VB)                        ((VA)&(VB))
+#define TYPE_OR(VA,VB)                         ((VA)|(VB))
+#define TYPE_LS(VA,LN)                         ((VA) << (LN))
+#define TYPE_RS(VA,RN)                         ((VA) >> (RN))
+#define TYPE_NOT(VAL)                          (!(VAL))
+
+#define TYPE_STR(NAME)                          @#NAME
+
+#define SCREEN_BOUNDS                          [UIScreen mainScreen].bounds
+#define SCREEN_SCALE                           [UIScreen mainScreen].scale
+
+#define SCREEN_WIDTH                           [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                          [UIScreen mainScreen].bounds.size.height
+
+#define AVAILABLE_IOS_V(IOS_V)                 ({ \
+                                                    BOOL OK = NO; \
+                                                    if(@available(iOS IOS_V,*)) \
+                                                        OK = YES; \
+                                                    OK; \
+                                               })
+#define AVAILABLE_IOS_11                        AVAILABLE_IOS_V(11.0)
+
+#define SAFE_INSETS                            (AVAILABLE_IOS_11 ? [[UIApplication sharedApplication].windows firstObject].safeAreaInsets : UIEdgeInsetsZero)
+#define SAFE_X                                 (AVAILABLE_IOS_11 ? SAFE_INSETS.left : 0)
+#define SAFE_Y                                 (AVAILABLE_IOS_11 ? SAFE_INSETS.top : 0)
+#define SAFE_BOTTOM                            (AVAILABLE_IOS_11 ? SAFE_INSETS.bottom : 0)
+#define SAFE_RIGHT                             (AVAILABLE_IOS_11 ? SAFE_INSETS.right : 0)
+
+#define SAFE_WIDTH                             (AVAILABLE_IOS_11 ? SCREEN_WIDTH - SAFE_INSETS.left - SAFE_INSETS.right : SCREEN_WIDTH)
+#define SAFE_HEIGHT                            (AVAILABLE_IOS_11 ? SCREEN_HEIGHT - SAFE_INSETS.top - SAFE_INSETS.bottom : SCREEN_HEIGHT)
+#define SAFE_SIZE                              CGSizeMake(SAFE_WIDTH,SAFE_HEIGHT)
+#define SAFE_FRAME                             CGRectMake(SAFE_X,SAFE_Y,SAFE_WIDTH,SAFE_HEIGHT)
+#define SAFE_BOUNDS                            CGRectMake(0,0,SAFE_WIDTH,SAFE_HEIGHT)
+
+#define STATUS_BAR_FRAME                       [[UIApplication sharedApplication] statusBarFrame]
+#define NAV_BAR_FRAME                          self.navigationController.navigationBar.frame
+#define TAB_BAR_FRAME                          [BaseTabBarController shareBaseTabBarController].tabBar.frame
+
+#define STATUS_BAR_HEIGHT                      [[UIApplication sharedApplication] statusBarFrame].size.height
+#define CONST_STATUS_BAR_HEIGHT                 (20)
+#define NAV_BAR_HEIGHT                         self.navigationController.navigationBar.frame.size.height
+#define TAB_BAR_HEIGHT                         [BaseTabBarController shareBaseTabBarController].tabBar.frame.size.height
+
+#define STATUS_NAV_BAR_HEIGHT                  (STATUS_BAR_HEIGHT + NAV_BAR_HEIGHT)
+#define CONST_STATUS_NAV_BAR_HEIGHT            (64)
+#define STATUS_NAV_TAB_BAR_HEIGHT              (STATUS_NAV_BAR_HEIGHT + TAB_BAR_HEIGHT)
+#define VIEW_VISIBLE_HEIGHT                    (SCREEN_HEIGHT - STATUS_NAV_TAB_BAR_HEIGHT)
+
+#define RGB(R,G,B)                              [UIColor colorWithRed:(R)/255.f green:(G)/255.f blue:(B)/255.f alpha:1.f]
+#define RGBA(R,G,B,A)                           [UIColor colorWithRed:(R)/255.f green:(G)/255.f blue:(B)/255.f alpha:(A)/255.f];
+
+
+#define RGB_WITH_INT_WITH_NO_ALPHA(C_INT)       RGB(TYPE_AND(TYPE_RS(C_INT,16),255),TYPE_AND(TYPE_RS(C_INT,8),255),TYPE_AND(C_INT,255))
+#define RGB_WITH_STR_WITH_NO_ALPHA(C_STR)       RGB_WITH_INT_WITH_NO_ALPHA([(C_STR) integerValue])
+
+#define RGB_WITH_INT_WITH_ALPHA(C_INT)          RGBA(TYPE_AND(TYPE_RS(C_INT,24),255),TYPE_AND(TYPE_RS(C_INT,16),255),TYPE_AND(TYPE_RS(C_INT,8),255),TYPE_AND(C_INT,255))
+#define RGB_WITH_STR_WITH_ALPHA(C_STR)          RGB_WITH_INT_WITH_ALPHA([(C_STR) integerValue])
+
+#define RAND_COLOR                              RGB(TYPE_AND(arc4random(),255),TYPE_AND(arc4random(),255),TYPE_AND(arc4random(),255))
+
+#define CLEAR_COLOR                             [UIColor clearColor]
+#define WHITE_COLOR                             [UIColor whiteColor]
+#define BLACK_COLOR                             [UIColor blackColor]
+#define BLUE_COLOR                              [UIColor blueColor]
+#define RED_COLOR                               [UIColor redColor]
+#define LIGHT_GRAY_COLOR                        [UIColor lightGrayColor]
+#define PURPLE_COLOR                            [UIColor purpleColor]
+#define YELLOW_COLOR                            [UIColor yellowColor]
+#define GREEN_COLOR                             [UIColor greenColor]
+#define ORANGE_COLOR                            [UIColor orangeColor]
+#define BROWN_COLOR                             [UIColor brownColor]
+#define GROUP_TABLEVIEW_BG_COLOR                [UIColor groupTableViewBackgroundColor]
+
+#define RED_FROM_RGB_COLOR(COLOR)               ({ \
+                                                    CGFloat _R_COLOR_ = 0; \
+                                                    CGFloat _G_COLOR_ = 0; \
+                                                    CGFloat _B_COLOR_ = 0; \
+                                                    CGFloat _ALPHA_ = 0; \
+                                                    [COLOR getRed:&_R_COLOR_ green:&_G_COLOR_ blue:&_B_COLOR_ alpha:&_ALPHA_]; \
+                                                    _R_COLOR_; \
+                                                })
+
+#define GREEN_FROM_RGB_COLOR(COLOR)             ({ \
+                                                    CGFloat _R_COLOR_ = 0; \
+                                                    CGFloat _G_COLOR_ = 0; \
+                                                    CGFloat _B_COLOR_ = 0; \
+                                                    CGFloat _ALPHA_ = 0; \
+                                                    [COLOR getRed:&_R_COLOR_ green:&_G_COLOR_ blue:&_B_COLOR_ alpha:&_ALPHA_]; \
+                                                    _G_COLOR_; \
+                                                })
+
+#define BLUE_FROM_RGB_COLOR(COLOR)              ({ \
+                                                    CGFloat _R_COLOR_ = 0; \
+                                                    CGFloat _G_COLOR_ = 0; \
+                                                    CGFloat _B_COLOR_ = 0; \
+                                                    CGFloat _ALPHA_ = 0; \
+                                                    [COLOR getRed:&_R_COLOR_ green:&_G_COLOR_ blue:&_B_COLOR_ alpha:&_ALPHA_]; \
+                                                    _B_COLOR_; \
+                                                })
+
+#define ALPHA_FROM_RGB_COLOR(COLOR)             ({ \
+                                                    CGFloat _R_COLOR_ = 0; \
+                                                    CGFloat _G_COLOR_ = 0; \
+                                                    CGFloat _B_COLOR_ = 0; \
+                                                    CGFloat _ALPHA_ = 0; \
+                                                    [COLOR getRed:&_R_COLOR_ green:&_G_COLOR_ blue:&_B_COLOR_ alpha:&_ALPHA_]; \
+                                                    _ALPHA_; \
+                                                })
+
+#define IS_AVAILABLE_NSSTRNG(STRING)            (STRING != nil && STRING.length > 0)
+#define IS_AVAILABLE_NSSET_OBJ(NSSET_OBJ)       (NSSET_OBJ != nil && NSSET_OBJ.count > 0)
+
+
+#define NSSTRING_FROM_CLASS(CLASS_NAME)         NSStringFromClass([CLASS_NAME class])
+
+#define CLASS_FROM_CLASSNAME(CLASS_NAME)        [CLASS_NAME class]
+
+#define FONT(F_S)                               [UIFont systemFontOfSize:(F_S)]
+#define BOLD_FONT(F_S)                          [UIFont boldSystemFontOfSize:(F_S)]
+
+#define SINGLE_LINE_WIDTH           (1 / SCREEN_SCALE)
+#define SINGLE_LINE_ADJUST_OFFSET   ((1 / SCREEN_SCALE) / 2)
+
+
+#endif
